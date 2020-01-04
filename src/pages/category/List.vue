@@ -41,9 +41,6 @@
                 <el-form-item label="数量">
                     <el-input v-model="form.num"></el-input>
                 </el-form-item>
-                <el-form-item label="父属性">
-                    <el-input v-model="form.parentId"></el-input>
-                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="closeModule">取 消</el-button>
