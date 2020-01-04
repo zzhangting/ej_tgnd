@@ -38,21 +38,6 @@
                 <el-form-item label="密码">
                     <el-input type="password" v-model="form.password"></el-input>
                 </el-form-item>
-                <el-form-item label="状态">
-                    <el-input v-model="form.status"></el-input>
-                </el-form-item>
-                <el-form-item label="总计">
-                    <el-input v-model="form.total"></el-input>
-                </el-form-item>
-                <el-form-item label="顾客编号">
-                    <el-input v-model="form.customerId"></el-input>
-                </el-form-item>
-                <el-form-item label="员工编号">
-                    <el-input v-model="form.waiterId"></el-input>
-                </el-form-item>
-                <el-form-item label="地址编号">
-                    <el-input v-model="form.addressId"></el-input>
-                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="closeModule">取 消</el-button>
