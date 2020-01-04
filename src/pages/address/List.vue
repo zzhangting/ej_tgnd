@@ -8,12 +8,10 @@
         <!--/按钮-->
         <!--表格-->
         <el-table :data="address">
-             <el-table-column prop="id" label="编号"></el-table-column>
       <el-table-column   prop="province" label="省会"></el-table-column>
       <el-table-column  prop="city" label="城市"></el-table-column>
       <el-table-column prop="address" label="详细地址"></el-table-column>
       <el-table-column prop="telephone" label="手机号"></el-table-column>
-      <el-table-column  prop="customerId" label="顾客编号"></el-table-column>
             <el-table-column  label="操作">                                     
               <template v-slot="slot"> 
                  <a href="" @click.prevent="toDeleteHandler(slot.row.id)">删除</a>
