@@ -38,7 +38,15 @@
         <el-input v-model="form.price"></el-input>
     </el-form-item>
     <el-form-item label="所属栏目">
-         <el-dropdown v-model="form.status">
+        <el-select v-model="form.categoryId">
+            <el-option 
+            v-for="item in options"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+            </el-option>
+        </el-select>
+         <!-- <el-dropdown v-model="form.status">
             <span class="el-dropdown-link">下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -50,10 +58,10 @@
                 <el-dropdown-item>yyy</el-dropdown-item>
                 <el-dropdown-item>水果慢羊羊</el-dropdown-item>
             </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown> -->
     </el-form-item>
     <el-form-item label="描述">
-         <el-input v-model="form.description"></el-input>
+         <el-input v-model="form.description" type="textarea"></el-input>
     </el-form-item>
     <el-form-item label="产品主图">
          <el-input v-model=form.photo></el-input>
@@ -75,9 +83,15 @@ import querystring from 'querystring'
 export default {
     //methods用于存放网页中需要调用的方法
     methods:{
+        loadCategory(){
+            let url="http://localhost:6677/category/findAll"
+            request.get(url).then((response)=>{
+                this.options=response.data;
+            })
+        },
         loadData(){
             let url = "http://localhost:6677/product/findAll"
-      request.get(url).then((response)=>{
+             request.get(url).then((response)=>{
         // 将查询结果设置到customers中，this指向外部函数的this
         this.products = response.data;
       })
@@ -140,9 +154,7 @@ export default {
         },
       toAddHandler(){
             //将form变为初始值
-             this.form={
-                 type:"product"
-             }
+             this.form={}
            this.visible=true;
         }
     },
@@ -151,10 +163,8 @@ export default {
         return{
             visible:false,
             products:[],
-            form:{
-                type:"product"
-            }
-            
+            options:[],
+            form:{}   
         }
     },
     //created表示vue实例创建完毕，准备执行
@@ -162,6 +172,8 @@ export default {
         //this为当前vue实例对象
         //vue实例创建完毕
         this.loadData();
+        //加载栏目信息，用于下拉菜单
+        this.loadCategory();
     }
 }
 </script>

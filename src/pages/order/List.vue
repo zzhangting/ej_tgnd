@@ -5,15 +5,15 @@
         <el-button type="danger" size="small">批量删除</el-button>
         <!-- 按钮结束-->
         <!-- 表格-->
-        <el-table :data="orders">
+        <el-table :data="orders.list">
             <el-table-column prop="id" label="编号"></el-table-column>
-            <el-table-column prop="orderTime" label="订单时间"></el-table-column>
+            <el-table-column width="200" prop="orderTime" label="订单时间"></el-table-column>
             <el-table-column prop="total" label="总计"></el-table-column>
             <el-table-column prop="status" label="状态"></el-table-column>
-            <el-table-column prop="customerId" label="顾客编号"></el-table-column>
-            <el-table-column prop="waiterId" label="员工编号"></el-table-column>
-            <el-table-column prop="addressId" label="地址编号"></el-table-column>
-            <el-table-column label="操作">
+            <el-table-column prop="customerId" label="顾客ID"></el-table-column>
+            <el-table-column prop="waiterId" label="员工ID"></el-table-column>
+            <el-table-column prop="addressId" label="地址ID"></el-table-column>
+            <el-table-column fixed="right" label="操作">
                 <template v-slot="slot">
                     <a href="" @click.prevent="toDeleteHandler(slot.row.id)">删除</a>
                     <a href="" @click.prevent="toUpdateHandler(slot.row)">修改</a>
@@ -23,10 +23,11 @@
         </el-table>
         <!--表格结束-->
         <!--分页开始 -->
-        <!-- <el-pagination
+        <el-pagination
             layout="prev, pager, next"
-            :total="50">
-        </el-pagination> -->
+            @current-change="pageChangeHandler"
+            :total="orders.total" >
+        </el-pagination>
         <!-- 分页结束>
         <! -- 对话 -->
         <el-dialog
@@ -60,21 +61,34 @@ export default {
     },
     data(){
         return{
-            title:"录入订单信息",
             visible:false,
-            orders:[],
+            orders:{},
             form:{
                 type:"order"
+            },
+            params:{
+                page:0,
+                pageSize:10
             }
         }
     },
     
     //用于存放网络中需要调用的方法
     methods:{
+        pageChangeHandler(page){
+            this.params.page=page-1;
+            this.loadData();
+        },
         loadData(){
-            let url="http://localhost:6677/order/findAll"
-            request.get(url).then((response)=>{
-                //将查询结果设置到customer中
+            let url="http://localhost:6677/order/queryPage"
+            request({
+                url,
+                method:"post",
+                headers:{
+                    "Content-Type":"application/x-www-form-urlencoded"
+                },
+            data:querystring.stringify(this.params)
+            }).then((response)=>{
                 this.orders=response.data;
             })
         },
@@ -103,20 +117,15 @@ export default {
                 })
             })
         },
-        toAddHandler(){
-            this.form={
-                type:"order"  //原始的order界面
-            }
-            this.title="录入订单信息"
-            this.visible=true;
-        },
-        closeModule(){
-            this.visible=false;
-        },
         toUpdateHandler(row){
             //模态框的表单中显示出当前行的信息
             this.form=row;
-            this.title="修改订单信息";
+            this.visible=true;
+        },
+        toAddHandler(){
+            this.form={
+                type:"order"
+            }
             this.visible=true;
         },
         toDeleteHandler(id){
@@ -138,7 +147,7 @@ export default {
                 })
                 
             })
-        }
+        },
     }
 }
 </script>
