@@ -7,7 +7,7 @@
         <!---/按钮--->
         <!--表格--->
         <el-table :data="comments">
-             <el-table-column prop="用户" label="name"></el-table-column>
+             <el-table-column prop="name" label="用户名"></el-table-column>
             <el-table-column prop="content" label="内容"></el-table-column>
             <el-table-column prop="commentTime" label="评论时间"></el-table-column>
             <el-table-column prop="orderId" label="订单id"></el-table-column>
@@ -35,9 +35,7 @@
       <el-form-item label="内容">
          <el-input v-model="form.content"></el-input>
       </el-form-item>
-      <el-form-item label="评论时间">
-         <el-input type="commentTime" v-model="form.commentTime"></el-input>
-      </el-form-item>
+     
      
   </el-form>
   <span slot="footer" class="dialog-footer">
